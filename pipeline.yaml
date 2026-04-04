@@ -44,3 +44,12 @@ spec:
       workspaces:
         - name: source
           workspace: output
+
+    - name: deploy
+      taskSpec:
+        steps:
+          - name: deploy
+            image: quay.io/openshift/origin-cli:latest
+            script: |
+              oc create deployment myapp --image=node:18-alpine --dry-run=client -o yaml | oc apply -f -
+      runAfter: ["jest-test"]

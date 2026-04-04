@@ -44,16 +44,3 @@ spec:
       workspaces:
         - name: source
           workspace: output
-
-    - name: build
-      taskRef:
-        name: buildah
-      runAfter: ["jest-test"]
-      params:
-        - name: IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/myapp
-        - name: STORAGE_DRIVER
-          value: vfs
-      workspaces:
-        - name: source
-          workspace: output

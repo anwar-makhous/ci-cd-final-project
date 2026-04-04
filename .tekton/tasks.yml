@@ -19,12 +19,12 @@ spec:
         runAsUser: 0
       script: |
         #!/usr/bin/env sh
-        set -eu
+        set -u
         echo "Removing all files from ${WORKSPACE_SOURCE_PATH} ..."
         if [ -d "${WORKSPACE_SOURCE_PATH}" ] ; then
-          rm -rf "${WORKSPACE_SOURCE_PATH:?}"/*
-          rm -rf "${WORKSPACE_SOURCE_PATH}"/.[!.]*
-          rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
+          rm -rf "${WORKSPACE_SOURCE_PATH:?}"/* || true
+          rm -rf "${WORKSPACE_SOURCE_PATH}"/.[!.]* || true
+          rm -rf "${WORKSPACE_SOURCE_PATH}"/..?* || true
         fi
 ---
 apiVersion: tekton.dev/v1beta1

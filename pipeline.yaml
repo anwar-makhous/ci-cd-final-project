@@ -21,7 +21,8 @@ spec:
     - name: clone
       taskRef:
         name: git-clone
-      runAfter: ["cleanup"]
+      runAfter:
+        - cleanup
       params:
         - name: url
           value: $(params.repo-url)
@@ -32,7 +33,8 @@ spec:
     - name: eslint
       taskRef:
         name: eslint
-      runAfter: ["clone"]
+      runAfter:
+        - clone
       workspaces:
         - name: source
           workspace: output
@@ -40,7 +42,8 @@ spec:
     - name: jest-test
       taskRef:
         name: jest-test
-      runAfter: ["eslint"]
+      runAfter:
+        - eslint
       workspaces:
         - name: source
           workspace: output
@@ -52,4 +55,5 @@ spec:
             image: quay.io/openshift/origin-cli:latest
             script: |
               oc create deployment myapp --image=node:18-alpine --dry-run=client -o yaml | oc apply -f -
-      runAfter: ["jest-test"]
+      runAfter:
+        - jest-test
